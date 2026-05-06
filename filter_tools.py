@@ -11,18 +11,14 @@ def filter_listings(
     max_price: int = None,
     neighborhoods: list[str] = None,
 ) -> str:
-    """Filter a set of listings by keywords, price, or neighborhood.
-
-    Use this after search_listings to narrow down results based on
-    specific requirements like "furnished", "no pets", or a particular
-    neighborhood. Pass the raw output from search_listings as listings_text.
+    """Filter listings by keywords, price, or neighborhood.
 
     Args:
-        listings_text: The raw text output from search_listings
-        keywords_required: Words that MUST appear in the listing (e.g. ["furnished", "utilities included"])
-        keywords_excluded: Words that must NOT appear (e.g. ["no pets", "no students"])
-        max_price: Hard cap on price — filters out anything above this
-        neighborhoods: Only keep listings in these neighborhoods (partial match, case-insensitive)
+        listings_text: Raw text output from search_listings
+        keywords_required: Words that MUST appear e.g. ["furnished"]
+        keywords_excluded: Words that must NOT appear e.g. ["no pets"]
+        max_price: Hard price cap
+        neighborhoods: Keep only these neighborhoods (partial match)
     """
     if keywords_required is None:
         keywords_required = []

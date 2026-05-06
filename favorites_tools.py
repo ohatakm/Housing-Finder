@@ -28,17 +28,14 @@ def save_favorite(
     neighborhood: str,
     notes: str = "",
 ) -> str:
-    """Save a housing listing to your local favorites list.
-
-    Use this when the user wants to bookmark a listing for later review.
-    Favorites are saved to favorites.json in the current directory.
+    """Save a listing to favorites.
 
     Args:
-        title: The listing title
-        url: The full listing URL
-        price: The listed price (e.g. "$2,400/mo")
-        neighborhood: The neighborhood or area
-        notes: Optional personal notes about this listing
+        title: Listing title
+        url: Full listing URL
+        price: Listed price e.g. $2,400/mo
+        neighborhood: Neighborhood or area
+        notes: Optional notes
     """
     favorites = _load_favorites()
 
@@ -71,11 +68,7 @@ def save_favorite(
 
 @tool
 def view_favorites() -> str:
-    """View all saved favorite housing listings.
-
-    Returns all listings you've bookmarked with save_favorite,
-    loaded from favorites.json.
-    """
+    """Return all saved favorite listings."""
     favorites = _load_favorites()
 
     if not favorites:
@@ -96,10 +89,10 @@ def view_favorites() -> str:
 
 @tool
 def remove_favorite(url: str) -> str:
-    """Remove a listing from your saved favorites by its URL.
+    """Remove a saved favorite by URL.
 
     Args:
-        url: The URL of the listing to remove
+        url: URL of the listing to remove
     """
     favorites = _load_favorites()
     original_count = len(favorites)
