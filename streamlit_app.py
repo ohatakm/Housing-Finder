@@ -51,12 +51,12 @@ SORT_OPTIONS = [
 AREAS = ["all", "sf", "south bay", "east bay", "peninsula", "north bay"]
 
 AREA_LABELS = {
-    "all": "🌉 All Bay Area",
-    "sf": "🌁 San Francisco",
-    "south bay": "💻 South Bay",
-    "east bay": "🌳 East Bay",
-    "peninsula": "🌊 Peninsula",
-    "north bay": "🍷 North Bay",
+    "all": "All Bay Area",
+    "sf": "San Francisco",
+    "south bay": "South Bay",
+    "east bay": "East Bay",
+    "peninsula": "Peninsula",
+    "north bay": "North Bay",
 }
 
 SOURCE_COLORS = {
@@ -66,16 +66,16 @@ SOURCE_COLORS = {
 }
 
 SOURCE_ICONS = {
-    "Apartments":   "🏢",
-    "Rooms/Shared": "🤝",
-    "Sublets":      "📅",
+    "Apartments":   "",
+    "Rooms/Shared": "",
+    "Sublets":      "",
 }
 
 # ── Page config ──────────────────────────────────────────────────────────────
 
 st.set_page_config(
     page_title="Bay Area Housing Finder",
-    page_icon="🏠",
+    page_icon="—",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -84,126 +84,125 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-/* ── Font & base ── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* ── Hide default Streamlit chrome ── */
-#MainMenu, footer, header { visibility: hidden; }
-.block-container { padding-top: 1.5rem; padding-bottom: 2rem; }
-
-/* ── Hero header ── */
-.hero {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    border-radius: 16px;
-    padding: 2.5rem 2rem 2rem;
-    margin-bottom: 1.5rem;
-    color: white;
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
 }
-.hero h1 { font-size: 2.2rem; font-weight: 700; margin: 0 0 0.3rem; letter-spacing: -0.5px; }
-.hero p  { font-size: 1rem; opacity: 0.75; margin: 0; }
+
+#MainMenu, footer, header { visibility: hidden; }
+.block-container { padding-top: 2rem; padding-bottom: 3rem; max-width: 1100px; }
+
+/* ── Header ── */
+.app-header {
+    padding: 2.5rem 0 1.8rem;
+    border-bottom: 1px solid rgba(128,128,128,0.15);
+    margin-bottom: 2rem;
+}
+.app-header h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    margin: 0 0 0.3rem;
+}
+.app-header p {
+    font-size: 0.875rem;
+    opacity: 0.5;
+    margin: 0;
+    font-weight: 400;
+}
 
 /* ── Tabs ── */
 .stTabs [data-baseweb="tab-list"] {
-    gap: 4px;
-    background: #f0f2f6;
-    padding: 4px;
-    border-radius: 10px;
+    gap: 0;
+    background: transparent;
+    padding: 0;
+    border-bottom: 1px solid rgba(128,128,128,0.2);
+    border-radius: 0;
 }
 .stTabs [data-baseweb="tab"] {
-    border-radius: 8px;
-    padding: 8px 18px;
-    font-weight: 500;
-    font-size: 0.9rem;
-    color: #555;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-weight: 400;
+    font-size: 0.875rem;
     background: transparent;
     border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
 }
 .stTabs [aria-selected="true"] {
-    background: white !important;
-    color: #0f3460 !important;
-    font-weight: 600;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
-}
-
-/* ── Filter panel ── */
-.filter-panel {
-    background: #f8f9fb;
-    border: 1px solid #e8eaed;
-    border-radius: 12px;
-    padding: 1.2rem 1.4rem 0.8rem;
-    margin-bottom: 1rem;
+    background: transparent !important;
+    font-weight: 600 !important;
+    border-bottom: 2px solid currentColor !important;
+    box-shadow: none !important;
 }
 
 /* ── Listing card ── */
 .listing-card {
-    background: white;
-    border: 1px solid #e8eaed;
-    border-radius: 12px;
-    padding: 1.1rem 1.3rem;
-    margin-bottom: 0.75rem;
-    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    border: 1px solid rgba(128,128,128,0.18);
+    border-radius: 8px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 0.6rem;
+    transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
 .listing-card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    border-color: #c5cae9;
+    border-color: rgba(128,128,128,0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 .listing-title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #1a1a2e;
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.2rem;
     line-height: 1.4;
 }
 .listing-meta {
-    font-size: 0.82rem;
-    color: #666;
-    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    opacity: 0.55;
+    margin-bottom: 0.45rem;
 }
 .listing-price {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 700;
-    color: #0f3460;
     white-space: nowrap;
 }
 .listing-desc {
-    font-size: 0.85rem;
-    color: #555;
-    line-height: 1.5;
-    margin: 0.4rem 0 0.6rem;
+    font-size: 0.82rem;
+    opacity: 0.65;
+    line-height: 1.55;
+    margin: 0.35rem 0 0.5rem;
 }
 .source-badge {
     display: inline-block;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 0.72rem;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
     color: white;
-    margin-right: 6px;
+    margin-right: 8px;
 }
 .view-btn {
     display: inline-block;
-    padding: 5px 14px;
-    background: #0f3460;
-    color: white !important;
-    border-radius: 6px;
-    font-size: 0.8rem;
+    padding: 4px 12px;
+    border: 1px solid rgba(128,128,128,0.35);
+    border-radius: 4px;
+    font-size: 0.78rem;
     font-weight: 500;
     text-decoration: none;
-    transition: background 0.15s;
+    opacity: 0.8;
+    transition: opacity 0.1s, border-color 0.1s;
+    color: inherit !important;
 }
-.view-btn:hover { background: #1a4a8a; }
+.view-btn:hover { opacity: 1; border-color: rgba(128,128,128,0.7); }
 
 /* ── Stats bar ── */
 .stats-bar {
-    background: #f0f4ff;
-    border: 1px solid #dce4ff;
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+    padding: 0.5rem 0;
     margin-bottom: 1rem;
-    font-size: 0.85rem;
-    color: #3a4a7a;
+    border-bottom: 1px solid rgba(128,128,128,0.12);
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
@@ -212,40 +211,48 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 /* ── Empty state ── */
 .empty-state {
     text-align: center;
-    padding: 3rem 1rem;
-    color: #888;
+    padding: 4rem 1rem;
+    opacity: 0.4;
 }
-.empty-state .icon { font-size: 3rem; margin-bottom: 0.5rem; }
-.empty-state p { font-size: 0.95rem; }
+.empty-state p { font-size: 0.9rem; margin: 0; }
 
 /* ── Favorite card ── */
 .fav-card {
-    background: white;
-    border: 1px solid #e8eaed;
-    border-left: 4px solid #0f3460;
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    margin-bottom: 0.75rem;
+    border: 1px solid rgba(128,128,128,0.18);
+    border-left: 3px solid #555;
+    border-radius: 6px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 0.6rem;
 }
-.fav-title { font-weight: 600; font-size: 0.95rem; color: #1a1a2e; }
-.fav-meta  { font-size: 0.82rem; color: #666; margin-top: 0.2rem; }
-
-/* ── Chat ── */
-.example-prompt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0.75rem 0 1.25rem; }
-.stChatMessage { border-radius: 12px !important; }
+.fav-title { font-weight: 600; font-size: 0.9rem; }
+.fav-meta  { font-size: 0.78rem; opacity: 0.55; margin-top: 0.2rem; }
 
 /* ── Buttons ── */
 .stButton > button {
-    border-radius: 8px !important;
+    border-radius: 5px !important;
     font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    letter-spacing: 0.01em !important;
 }
-.stButton > button[kind="primary"] {
-    background: #0f3460 !important;
-    border-color: #0f3460 !important;
+
+/* ── Inputs ── */
+.stTextInput input, .stNumberInput input, .stTextArea textarea {
+    border-radius: 5px !important;
+    font-size: 0.875rem !important;
 }
-.stButton > button[kind="primary"]:hover {
-    background: #1a4a8a !important;
-    border-color: #1a4a8a !important;
+.stSelectbox > div > div {
+    border-radius: 5px !important;
+    font-size: 0.875rem !important;
+}
+
+/* ── Section label ── */
+.section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.45;
+    margin-bottom: 0.75rem;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -253,9 +260,9 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 # ── Hero ──────────────────────────────────────────────────────────────────────
 
 st.markdown("""
-<div class="hero">
-  <h1>🏠 Bay Area Housing Finder</h1>
-  <p>AI-powered rental search across Craigslist apartments, rooms, and sublets</p>
+<div class="app-header">
+  <h1>Bay Area Housing Finder</h1>
+  <p>Live rental search across Craigslist apartments, rooms, and sublets</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -364,11 +371,11 @@ def render_listing_cards(listings, sort_by):
 # ── Tabs ──────────────────────────────────────────────────────────────────────
 
 tab_chat, tab_browse, tab_search, tab_favs, tab_budget = st.tabs([
-    "💬  Chat",
-    "📋  Browse",
-    "🔍  Search",
-    "❤️  Favorites",
-    "💰  Budget",
+    "Chat",
+    "Browse",
+    "Search",
+    "Saved",
+    "Budget",
 ])
 
 # ── Tab 1: Chat ───────────────────────────────────────────────────────────────
@@ -380,7 +387,7 @@ with tab_chat:
 
     if not st.session_state.messages:
         st.markdown(
-            "<div style='color:#888; font-size:0.85rem; margin-bottom:0.5rem;'>✨ Try one of these to get started</div>",
+            '<div class="section-label" style="margin-bottom:0.75rem;">Suggested searches</div>',
             unsafe_allow_html=True,
         )
         examples = [
@@ -409,19 +416,18 @@ with tab_chat:
                     raw = str(agent(prompt))
                     response = re.sub(r"<thinking>.*?</thinking>", "", raw, flags=re.DOTALL).strip()
                 except Exception as e:
-                    response = f"❌ Error: {e}"
+                    response = f"Error: {e}"
             st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
 
     if st.session_state.messages:
-        if st.button("🗑 Clear chat", key="clear_chat"):
+        if st.button("Clear chat", key="clear_chat"):
             st.session_state.messages = []
             st.rerun()
 
 # ── Tab 2: Browse ─────────────────────────────────────────────────────────────
 
 with tab_browse:
-    st.markdown("<div class='filter-panel'>", unsafe_allow_html=True)
     c1, c2, c3, c4, c5 = st.columns([2, 1, 1, 1, 2])
     br_area    = c1.selectbox("Area", AREAS, format_func=lambda x: AREA_LABELS.get(x, x), key="br_area")
     br_min     = c2.number_input("Min $", value=0, step=100, key="br_min")
@@ -436,7 +442,7 @@ with tab_browse:
     br_sort    = sc2.selectbox("Sort", SORT_OPTIONS, index=1, key="br_sort")
     st.markdown("</div>", unsafe_allow_html=True)
 
-    load = st.button("🔍 Load Listings", type="primary", use_container_width=True, key="br_load")
+    load = st.button("Load listings", type="primary", use_container_width=True, key="br_load")
 
     if load:
         with st.spinner("Fetching listings from Craigslist…"):
@@ -451,11 +457,7 @@ with tab_browse:
     if st.session_state.br_listings:
         render_listing_cards(st.session_state.br_listings, br_sort)
     else:
-        st.markdown("""
-<div class="empty-state">
-  <div class="icon">🏘️</div>
-  <p>Set your filters above and click <strong>Load Listings</strong></p>
-</div>""", unsafe_allow_html=True)
+        st.markdown('<div class="empty-state"><p>Set your filters and click <strong>Load listings</strong></p></div>', unsafe_allow_html=True)
 
 # ── Tab 3: Search ─────────────────────────────────────────────────────────────
 
@@ -473,7 +475,7 @@ with tab_search:
     qs_sort    = sq3.selectbox("Sort", SORT_OPTIONS, key="qs_sort")
     st.markdown("</div>", unsafe_allow_html=True)
 
-    qs_go = st.button("🔍 Search", type="primary", use_container_width=True, key="qs_go")
+    qs_go = st.button("Search", type="primary", use_container_width=True, key="qs_go")
 
     if qs_go:
         with st.spinner("Fetching listings from Craigslist…"):
@@ -488,11 +490,7 @@ with tab_search:
     if st.session_state.qs_listings:
         render_listing_cards(st.session_state.qs_listings, qs_sort)
     else:
-        st.markdown("""
-<div class="empty-state">
-  <div class="icon">🔍</div>
-  <p>Set your filters above and click <strong>Search</strong></p>
-</div>""", unsafe_allow_html=True)
+        st.markdown('<div class="empty-state"><p>Set your filters and click <strong>Search</strong></p></div>', unsafe_allow_html=True)
 
 # ── Tab 4: Favorites ──────────────────────────────────────────────────────────
 
@@ -500,14 +498,10 @@ with tab_favs:
     favs = _load_favorites()
 
     if not favs:
-        st.markdown("""
-<div class="empty-state">
-  <div class="icon">❤️</div>
-  <p>No saved favorites yet.<br>Ask the agent to save a listing for you!</p>
-</div>""", unsafe_allow_html=True)
+        st.markdown('<div class="empty-state"><p>No saved listings yet. Ask the agent to save one for you.</p></div>', unsafe_allow_html=True)
     else:
         st.markdown(
-            f"<div style='color:#888; font-size:0.85rem; margin-bottom:1rem;'>{len(favs)} saved listing(s)</div>",
+            f'<div class="section-label">{len(favs)} saved listing{"s" if len(favs) != 1 else ""}</div>',
             unsafe_allow_html=True,
         )
         for f in favs:
@@ -524,31 +518,32 @@ with tab_favs:
 </div>""", unsafe_allow_html=True)
             with col_b:
                 st.markdown("<div style='padding-top:0.6rem;'>", unsafe_allow_html=True)
-                if st.button("✕", key=f"rm_{f['url']}", help="Remove from favorites"):
+                if st.button("Remove", key=f"rm_{f['url']}", help="Remove from favorites"):
                     remove_favorite(f["url"])
                     st.rerun()
                 st.markdown("</div>", unsafe_allow_html=True)
 
-    if st.button("🔄 Refresh", key="refresh_favs"):
+    if st.button("Refresh", key="refresh_favs"):
         st.rerun()
 
 
 # ── Tab 5: Budget Estimator ───────────────────────────────────────────────────
 
 with tab_budget:
-    st.caption("See your true monthly cost beyond just rent — utilities, commute, parking, and move-in.")
+    st.markdown('<div class="section-label">Budget estimator</div>', unsafe_allow_html=True)
+    st.caption("See your true monthly cost beyond rent — utilities, commute, parking, and move-in.")
 
     # ── Inputs ──
     with st.container(border=True):
         b1, b2, b3 = st.columns(3)
-        bgt_rent      = b1.number_input("🏠 Monthly rent ($)", value=2500, step=50, min_value=500, max_value=15000, key="bgt_rent")
-        bgt_area      = b2.selectbox("📍 Area", AREAS, format_func=lambda x: AREA_LABELS.get(x, x), key="bgt_area")
-        bgt_roommates = b3.number_input("👥 Roommates splitting costs", value=0, min_value=0, max_value=5, step=1, key="bgt_roommates",
+        bgt_rent      = b1.number_input("Monthly rent ($)", value=2500, step=50, min_value=500, max_value=15000, key="bgt_rent")
+        bgt_area      = b2.selectbox("Area", AREAS, format_func=lambda x: AREA_LABELS.get(x, x), key="bgt_area")
+        bgt_roommates = b3.number_input("Roommates splitting costs", value=0, min_value=0, max_value=5, step=1, key="bgt_roommates",
                                          help="Enter the number of additional people splitting costs with you. 0 = living alone.")
 
         b4, b5, b6 = st.columns(3)
         bgt_commute = b4.selectbox(
-            "🚇 Commute mode",
+            "Commute mode",
             options=list(COMMUTE_COSTS.keys()),
             format_func=lambda x: {
                 "bart": "BART", "caltrain": "Caltrain", "muni": "Muni / Bus",
@@ -557,7 +552,7 @@ with tab_budget:
             key="bgt_commute",
         )
         bgt_movein = b5.selectbox(
-            "🔑 Move-in terms",
+            "Move-in terms",
             options=list(MOVE_IN_MULTIPLIERS.keys()),
             format_func=lambda x: {
                 "standard":     "1st + last + 1× deposit",
@@ -568,11 +563,11 @@ with tab_budget:
             key="bgt_movein",
             help="Most SF landlords require first + last + deposit. Check your lease.",
         )
-        bgt_parking = b6.checkbox("🚗 I need a parking spot (not included)", key="bgt_parking")
-        bgt_utils   = b6.checkbox("⚡ Utilities included in rent", key="bgt_utils")
+        bgt_parking = b6.checkbox("Parking not included — I need a spot", key="bgt_parking")
+        bgt_utils   = b6.checkbox("Utilities included in rent", key="bgt_utils")
 
     # ── Optional context expander ──
-    with st.expander("➕  Add more context for a personalised estimate"):
+    with st.expander("Add more context"):
         ctx1, ctx2 = st.columns(2)
         bgt_income    = ctx1.number_input("Annual gross income ($)", value=0, step=1000, min_value=0, key="bgt_income",
                                            help="Used to calculate how much of your income goes to housing.")
@@ -583,7 +578,7 @@ with tab_budget:
                                        help="Affects whether you need paid parking.")
         bgt_notes     = st.text_area("Anything else? (pet, storage, gym, etc.)", placeholder="e.g. I have a dog, need in-unit laundry, want a gym nearby", key="bgt_notes", height=80)
 
-    st.button("📊  Calculate my budget", type="primary", use_container_width=True, key="bgt_go")
+    st.button("Calculate budget", type="primary", use_container_width=True, key="bgt_go")
 
     if st.session_state.get("bgt_go"):
         area_key = bgt_area.lower().strip() if bgt_area in UTILITY_ESTIMATES else "all"
@@ -644,26 +639,26 @@ with tab_budget:
             }.get(bgt_commute, "Commute")
 
             breakdown_rows = []
-            breakdown_rows.append({"Category": "🏠  Rent", "Amount": f"${bgt_rent:,}", "Note": ""})
+            breakdown_rows.append({"Category": "Rent", "Amount": f"${bgt_rent:,}", "Note": ""})
 
             if bgt_utils:
-                breakdown_rows.append({"Category": "⚡  Utilities", "Amount": "Included", "Note": "Covered by landlord"})
+                breakdown_rows.append({"Category": "Utilities", "Amount": "Included", "Note": "Covered by landlord"})
             else:
                 for name, cost, note in util_rows:
                     breakdown_rows.append({"Category": f"   · {name}", "Amount": f"${cost:,}", "Note": note})
 
             breakdown_rows.append({
-                "Category": "🚗  Parking",
+                "Category": "Parking",
                 "Amount": f"${parking_cost:,}" if parking_cost else "Included",
                 "Note": parking_note,
             })
             breakdown_rows.append({
-                "Category": f"🚇  {commute_label}",
+                "Category": f"{commute_label}",
                 "Amount": f"${commute_cost:,}" if commute_cost else "Free",
                 "Note": c["notes"],
             })
-            breakdown_rows.append({"Category": "🛡  Renter's insurance", "Amount": f"${insurance:,}", "Note": "CA average, highly recommended"})
-            breakdown_rows.append({"Category": "━━  **TOTAL**", "Amount": f"**${monthly_total:,}**", "Note": f"per month{' · split ' + str(divisor) + ' ways' if bgt_roommates else ''}"})
+            breakdown_rows.append({"Category": "Renter's insurance", "Amount": f"${insurance:,}", "Note": "CA average, highly recommended"})
+            breakdown_rows.append({"Category": "Total", "Amount": f"**${monthly_total:,}**", "Note": f"per month{' · split ' + str(divisor) + ' ways' if bgt_roommates else ''}"})
 
             df = pd.DataFrame(breakdown_rows)
             st.dataframe(df, use_container_width=True, hide_index=True,
@@ -695,11 +690,11 @@ with tab_budget:
                 pct_of_income  = round((monthly_total / monthly_income) * 100)
 
             if pct_of_income is not None:
-                color = "🟢" if pct_of_income <= 30 else ("🟡" if pct_of_income <= 40 else "🔴")
-                st.info(f"{color} **{pct_of_income}% of your gross income** goes to total housing costs.\n\n"
-                        f"{'✅ Under the 30% guideline — looks affordable.' if pct_of_income <= 30 else ('⚠️ Above 30% — tight but common in the Bay Area.' if pct_of_income <= 40 else '❌ Above 40% — consider a lower rent or more roommates.')}")
+                color = "+" if pct_of_income <= 30 else ("~" if pct_of_income <= 40 else "!")
+                st.info(f"**{pct_of_income}% of your gross income** goes to total housing costs.\n\n"
+                        f"{'Under the 30% guideline — looks affordable.' if pct_of_income <= 30 else ('Above 30% — tight but common in the Bay Area.' if pct_of_income <= 40 else 'Above 40% — consider a lower rent or more roommates.')}")
             else:
-                st.info(f"💡 At the **30% rule**, you'd need **${recommended_income:,}/mo** gross income "
+                st.info(f"At the **30% rule**, you'd need **${recommended_income:,}/mo** gross income "
                         f"(~**${recommended_income * 12:,}/yr**) to comfortably afford this.\n\n"
                         f"Add your income above for a personalised check.")
 
@@ -708,13 +703,13 @@ with tab_budget:
             if savings > 0:
                 st.markdown("#### Savings check")
                 if savings >= three_month:
-                    st.success(f"✅ Your savings (${savings:,}) cover move-in + 2 months buffer (${three_month:,}).")
+                    st.success(f"Your savings (${savings:,}) cover move-in + 2 months buffer (${three_month:,}).")
                 elif savings >= move_in_cost:
                     shortfall = three_month - savings
-                    st.warning(f"⚠️ You can cover move-in (${move_in_cost:,}) but are ${shortfall:,} short of a 2-month buffer.")
+                    st.warning(f"You can cover move-in (${move_in_cost:,}) but are ${shortfall:,} short of a 2-month buffer.")
                 else:
                     shortfall = move_in_cost - savings
-                    st.error(f"❌ You're ${shortfall:,} short of the move-in cost alone (${move_in_cost:,}).")
+                    st.error(f"You're ${shortfall:,} short of the move-in cost alone (${move_in_cost:,}).")
 
             # Extra context notes
             notes = st.session_state.get("bgt_notes", "")
@@ -722,6 +717,6 @@ with tab_budget:
             if notes or job:
                 st.markdown("#### Your notes")
                 if job:
-                    st.markdown(f"📍 **Job/school:** {job}")
+                    st.markdown(f"**Job / school:** {job}")
                 if notes:
-                    st.markdown(f"📝 {notes}")
+                    st.markdown(f"{notes}")
